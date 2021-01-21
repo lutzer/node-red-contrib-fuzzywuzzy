@@ -29,9 +29,6 @@
     "intent",
     "pattern"
   ],
-  "files": [
-    "dist"
-  ],
   "dependencies": {
     "fuzzball": "^1.3.1"
   }

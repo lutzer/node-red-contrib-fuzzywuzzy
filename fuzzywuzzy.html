@@ -44,7 +44,7 @@
     <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-choices-editor"></div>
   </div>
   <div class="form-row">
-    <label for="node-input-scorer">Method</label>
+    <label for="node-input-scorer">Scoring</label>
     <select id="node-input-scorer" style="width:270px !important">
         <option value="WRatio">WRatio</option>
         <option value="ratio">simple_ratio</option>
@@ -67,4 +67,61 @@
 
 <script type="text/html" data-help-name="fuzzywuzzy">
   <p>Fuzzy string matching for node red.</p>
+
+  <h3>Options</h3>
+  <dl class="message-properties">
+    <dt>Choices
+        <span class="property-type">string</span>
+    </dt>
+    <dd>
+        Each line contains one choice. Keys can optionaly be supplied.
+<pre>
+# without key:
+Hello
+Hi
+Goodbye
+# with key:
+key1:Hello
+key1:Hi
+key2:Goodbye
+</pre>
+    </dd>
+    <dt>Method
+        <span class="property-type">Scoring</span>
+    </dt>
+    <dd>
+        Selects what scoring funcion to use. Read about the scoring functions here: <a href="https://github.com/nol13/fuzzball.js">https://github.com/nol13/fuzzball.js</a>
+    </dd>
+    <dt>Limit
+        <span class="property-type">number</span>
+    </dt>
+    <dd>
+        Maximum returned results.
+    </dd>
+    <dt>Cutoff
+        <span class="property-type">number</span>
+    </dt>
+    <dd>
+        Only return results with a score higher than the cutoff value.
+    </dd>
+  </dl>
+
+  <h3>Inputs</h3>
+    <dl class="message-properties">
+      <dt>payload <span class="property-type">string</span> </dt>
+      <dd>
+        The string to match against the choices from the node config</code>
+      </dd>
+    </dl>
+    
+    <h3>Outputs</h3>
+    <ol class="node-ports">
+      <p>Outputs a msg, with its payload containing an ordered array with the matching scores and keys<p>
+      <li>state
+        <dl class="message-properties">
+          <dt>payload <span class="property-type">array</span></dt>
+          <dd>an array with objects containing key, score and closest match.</dd>
+        </dl>
+      </li>
+    </ol>
 </script>
