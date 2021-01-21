@@ -6,7 +6,7 @@ Can be used for intent recognition.
 
 The Node is using fuzzywuzz's node port fuzzball: [https://github.com/nol13/fuzzball.js![node-configuration](/Users/lutz/Projects/node-red-contrib-fuzzywuzzy/docs/node-configuration.png)](https://github.com/nol13/fuzzball.js)
 
-![node-configuration](/Users/lutz/Desktop/node-configuration.png)
+![node-configuration](docs/node-configuration.png)
 
 ## Installation
 
