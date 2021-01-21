@@ -1,0 +1,70 @@
+<script type="text/javascript">
+    RED.nodes.registerType('fuzzywuzzy', {
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: { value: "" },
+            choices : { value: "" },
+            scorer : { value : 'WRatio' }, // scorer function
+            limit: { value: '0', validate:RED.validators.number() }, // Max number of top results to return, default: no limit / 0.
+            cutoff: { value: '0', validate:RED.validators.number() }, // Lowest score to return, default: 0
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+          return this.name || "fuzzywuzzy"
+        },
+        oneditprepare: function() {
+          this.editor = RED.editor.createEditor({
+            id: 'node-input-choices-editor',
+            mode: 'ace/mode/text',
+            value: this.choices
+          })
+        },
+        oneditsave: function() {
+          this.choices = this.editor.getValue()
+          this.editor.destroy()
+          delete this.editor
+        },
+        oneditcancel: function() {
+          this.editor.destroy()
+          delete this.editor
+        }
+    })
+</script>
+
+<script type="text/html" data-template-name="fuzzywuzzy">
+  <div class="form-row">
+      <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+      <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-choices-editor">Choices</label>
+    <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-choices-editor"></div>
+  </div>
+  <div class="form-row">
+    <label for="node-input-scorer">Method</label>
+    <select id="node-input-scorer" style="width:270px !important">
+        <option value="WRatio">WRatio</option>
+        <option value="ratio">simple_ratio</option>
+        <option value="partial_ratio">partial_ratio</option>
+        <option value="token_sort_ratio">token_sort_ratio</option>
+        <option value="token_set_ratio">token_set_ratio</option>
+        <option value="distance">distance</option>
+    </select>
+  </div>
+  <div class="form-row">
+    <label for="node-input-limit">Limit</label>
+    <input type="number" id="node-input-limit" placeholder="Maximum number of results" min="0">
+  </div>
+  <div class="form-row">
+    <label for="node-input-cutoff">Cutoff</label>
+    <input type="number" id="node-input-cutoff" placeholder="Lowest score to return" min="0" max="100">
+  </div>
+
+</script>
+
+<script type="text/html" data-help-name="fuzzywuzzy">
+  <p>Fuzzy string matching for node red.</p>
+</script>
