@@ -6,7 +6,7 @@ module.exports = function(RED) {
       const node = this;
 
       // map keys to choice lines
-      const keyChoicePairs = config.choices.toLowerCase().split('\n').map( (line,i) => {
+      const keyChoicePairs = config.choices.split('\n').map( (line,i) => {
         if (line.includes(":")) {
           let [ key, val ] = line.split(":");
           return {
@@ -32,7 +32,7 @@ module.exports = function(RED) {
       }
 
       node.on('input', function(msg) {
-          let choices = keyChoicePairs.map((p) => p.val)
+          let choices = keyChoicePairs.map((p) => p.val.toLowerCase())
           const results = fuzz.extract(msg.payload.toLowerCase(), choices, options)
 
           // map back keys to results
@@ -41,10 +41,10 @@ module.exports = function(RED) {
             return res
           })
           
-          msg.payload = resultsWithKeys
+          msg.results = resultsWithKeys
           node.send(msg)
       });
   }
 
-  RED.nodes.registerType("fuzzywuzzy", FuzzyWuzzyNode)
+  RED.nodes.registerType("fuzzy-match", FuzzyWuzzyNode)
 }
