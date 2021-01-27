@@ -10,7 +10,8 @@
             cutoff: { value: '0', validate:RED.validators.number() }, // Lowest score to return, default: 0
         },
         inputs:1,
-        outputs:1,
+        outputs:2,
+        outputLabels: [ "best match", "alternatives" ],
         icon: "font-awesome/fa-search",
         label: function() {
           return this.name || "fuzzy-match"

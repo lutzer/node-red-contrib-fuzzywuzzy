@@ -38,11 +38,12 @@ module.exports = function(RED) {
           // map back keys to results
           const resultsWithKeys = results.map( (res) => {
             res.key = keyChoicePairs[res.key].key
+            res.input = msg.payload
             return res
           })
           
-          msg.results = resultsWithKeys
-          node.send(msg)
+          msg.payload = resultsWithKeys
+          node.send([{...msg, payload: resultsWithKeys.length > 0 ? resultsWithKeys[0] : null }, msg])
       });
   }
 
