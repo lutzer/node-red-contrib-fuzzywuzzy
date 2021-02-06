@@ -4,22 +4,57 @@ module.exports = function(RED) {
   function FuzzyWuzzyNode(config) {
     RED.nodes.createNode(this, config);
       const node = this;
-
+      
+      // get content from choosen input option
+      function getInput () {
+          if (config.inputOptions === "context") {
+              let gotContext = "";
+              if (config.contextInput.length < 1) { node.error("please enter a context var"); return ""; }
+              try {
+                  switch (config.contextType) {
+                      case "flow":
+                          const flowContext = node.context().flow;
+                          gotContext = flowContext.get(config.contextInput);
+                          break;
+                        
+                      case "global":
+                          const globalContext = node.context().global;
+                          gotContext = globalContext.get(config.contextInput);
+                          break;
+                  }
+              } catch (error) {
+                  node.error(`couldnt retrieve choices from context: ${error}`);
+                  return "";
+              }
+              if (!gotContext) { node.error("please enter a valid context var"); return ""; }
+              return gotContext;
+          } else if (config.inputOptions === "text") {
+              return config.choices;
+          }
+      }
+      
+      let input = getInput();
+      
       // map keys to choice lines
-      const keyChoicePairs = config.choices.split('\n').map( (line,i) => {
-        if (line.includes(":")) {
-          let [ key, val ] = line.split(":");
-          return {
-            key: key,
-            val: val
-          }
-        } else {
-          return {
-            key: i,
-            val: line
-          }
-        }
-      }).filter( (p) => p.val.length > 1) // filter empty lines
+      function makeChoices (choices) {
+          const output = choices.split('\n').map( (line,i) => {
+            if (line.includes(":")) {
+              let [ key, val ] = line.split(":");
+              return {
+                key: key,
+                val: val
+              }
+            } else {
+              return {
+                key: i,
+                val: line
+              }
+            }
+          }).filter( (p) => p.val.length > 1) // filter empty lines
+          return output;
+      }
+      
+      let keyChoicePairs = makeChoices(input);
 
       const scorer = fuzz[config.scorer]
 
@@ -32,6 +67,14 @@ module.exports = function(RED) {
       }
 
       node.on('input', function(msg) {
+          
+          if (msg.refresh) {
+              input = getInput();
+              keyChoicePairs = makeChoices(input);
+              node.warn("refreshed choices");
+              return;
+          }
+          
           let choices = keyChoicePairs.map((p) => p.val.toLowerCase())
           const results = fuzz.extract(msg.payload.toLowerCase(), choices, options)
 
