@@ -30,6 +30,8 @@ module.exports = function(RED) {
               return gotContext;
           } else if (config.inputOptions === "text") {
               return config.choices;
+          } else if (config.inputOptions === "message") {
+              return "";
           }
       }
       
@@ -68,10 +70,22 @@ module.exports = function(RED) {
 
       node.on('input', function(msg) {
           
-          if (msg.refresh) {
-              input = getInput();
+          if (msg.refresh && config.inputOptions !== "text") {
+              if (config.inputOptions !== "message") {
+                  input = getInput();
+              } else {
+                  if (typeof msg.payload !== "string") {
+                      node.error('when in "set choices with msg" mode a msg with msg.refresh set must be accompanied by the choices to be set as a single string');
+                      return;
+                  }
+                  input = msg.payload;
+              }
               keyChoicePairs = makeChoices(input);
-              node.warn("refreshed choices");
+              if (config.inputOptions === "context") {
+                  node.warn(`refreshed choices from ${config.contextType}.${config.contextInput}`);
+              } else if (config.inputOptions === "message") {
+                  node.warn("refreshed choices from msg.payload");
+              }
               return;
           }
           

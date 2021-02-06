@@ -35,8 +35,11 @@
             if(option == "text"){
                 $("#contextField").hide();
                 $("#textField").show();
-            } else {
+            } else if (option == "context") {
                 $("#contextField").show();
+                $("#textField").hide();
+            } else if (option == "message") {
+                $("#contextField").hide();
                 $("#textField").hide();
             }
           });
@@ -63,6 +66,7 @@
     <select id="node-input-inputOptions" style="width:270px !important">
         <option value="text">enter choices in node</option>
         <option value="context">load choices from context</option>
+        <option value="message">set choices with msg.payload</option>
     </select>
   </div>
   <div class="form-row" id="contextField">
