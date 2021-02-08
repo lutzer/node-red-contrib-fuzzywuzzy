@@ -23,11 +23,6 @@
             mode: 'ace/mode/text',
             value: this.choices
           });
-          $("#node-input-contextInput").typedInput({
-            type:"msg",
-            types:["flow","global"],
-            typeField: "#node-input-contextType"
-          });
           $("#node-input-inputOptions").on("change", function(){
             let option = $("#node-input-inputOptions").val();
             if(option == "text"){
