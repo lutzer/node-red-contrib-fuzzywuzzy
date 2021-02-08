@@ -36,7 +36,6 @@ module.exports = function(RED) {
       }
 
       node.on('input', function(msg) {
-          
           if (config.inputOptions == 'message' && 'choices' in msg) {
             try {
               keyChoicePairs = makeChoices(msg.choices);

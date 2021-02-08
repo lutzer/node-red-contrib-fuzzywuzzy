@@ -23,17 +23,18 @@
             mode: 'ace/mode/text',
             value: this.choices
           });
-          $("#node-input-contextInput").typedInput({
-            type:"msg",
-            types:["flow","global"],
-            typeField: "#node-input-contextType"
-          });
           $("#node-input-inputOptions").on("change", function(){
             let option = $("#node-input-inputOptions").val();
             if(option == "text"){
+<<<<<<< HEAD
               $("#textField").show();
             } else if (option == "message") {
               $("#textField").hide();
+=======
+                $("#textField").show();
+            } else if (option == "message") {
+                $("#textField").hide();
+>>>>>>> 989a0e550ad9f321a258041bcd5b2a8b9717dca1
             }
           });
         },
@@ -57,8 +58,13 @@
   <div class="form-row">
     <label for="node-input-inputOptions">Source</label>
     <select id="node-input-inputOptions" style="width:270px !important">
+<<<<<<< HEAD
         <option value="text">enter choices in config</option>
         <option value="message">set choices by msg.choices</option>
+=======
+        <option value="text">enter choices in node</option>
+        <option value="message">set choices with msg.payload</option>
+>>>>>>> 989a0e550ad9f321a258041bcd5b2a8b9717dca1
     </select>
   </div>
   <div class="form-row" id="textField">
