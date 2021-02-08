@@ -24,13 +24,7 @@ module.exports = function(RED) {
           return output;
       }
 
-      let keyChoicePairs = [];
-      try {
-        keyChoicePairs = makeChoices(config.choices);
-      } catch(err) {
-        node.error("Could not load choices")
-        return
-      }
+      let keyChoicePairs = config.inputOptions == 'text' ? makeChoices(config.choices) : []
 
       const scorer = fuzz[config.scorer]
       const options = {
@@ -43,7 +37,7 @@ module.exports = function(RED) {
 
       node.on('input', function(msg) {
           
-          if ('choices' in msg) {
+          if (config.inputOptions == 'message' && 'choices' in msg) {
             try {
               keyChoicePairs = makeChoices(msg.choices);
             } catch(err) {
