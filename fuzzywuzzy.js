@@ -24,7 +24,7 @@ module.exports = function(RED) {
           return output;
       }
 
-      let keyChoicePairs = config.inputOptions == 'text' ? makeChoices(config.choices) : []
+      let keyChoicePairs = config.inputOptions == 'message' ? [] : makeChoices(config.choices);
 
       const scorer = fuzz[config.scorer]
       const options = {
