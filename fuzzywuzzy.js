@@ -19,7 +19,7 @@ module.exports = function(RED) {
             val: line
           }
         }
-      }).filter( (p) => p.val.length > 1) // filter empty lines
+      }).filter( (p) => p.val.length > 0) // filter empty lines
 
       const scorer = fuzz[config.scorer]
 
@@ -42,8 +42,7 @@ module.exports = function(RED) {
             return res
           })
           
-          msg.payload = resultsWithKeys
-          node.send([{...msg, payload: resultsWithKeys.length > 0 ? resultsWithKeys[0] : null }, msg])
+          node.send([{...msg, payload: resultsWithKeys.length > 0 ? resultsWithKeys[0] : null }, {...msg, payload: resultsWithKeys }])
       });
   }
 
