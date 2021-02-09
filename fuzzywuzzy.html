@@ -4,6 +4,7 @@
         color: '#FFAAAA',
         defaults: {
             name: { value: "" },
+            inputOptions : { value: "text" },
             choices : { value: "" },
             scorer : { value : 'WRatio' }, // scorer function
             limit: { value: '0', validate:RED.validators.number() }, // Max number of top results to return, default: no limit / 0.
@@ -21,7 +22,15 @@
             id: 'node-input-choices-editor',
             mode: 'ace/mode/text',
             value: this.choices
-          })
+          });
+          $("#node-input-inputOptions").on("change", function(){
+            let option = $("#node-input-inputOptions").val();
+            if(option == "text"){
+              $("#textField").show();
+            } else if (option == "message") {
+              $("#textField").hide();
+            }
+          });
         },
         oneditsave: function() {
           this.choices = this.editor.getValue()
@@ -41,6 +50,13 @@
       <input type="text" id="node-input-name" placeholder="Name">
   </div>
   <div class="form-row">
+    <label for="node-input-inputOptions">Source</label>
+    <select id="node-input-inputOptions" style="width:270px !important">
+        <option value="text">enter choices in config</option>
+        <option value="message">set choices by msg.choices</option>
+    </select>
+  </div>
+  <div class="form-row" id="textField">
     <label for="node-input-choices-editor">Choices</label>
     <div style="height: 250px; min-height:150px;" class="node-text-editor" id="node-input-choices-editor"></div>
   </div>
@@ -112,6 +128,12 @@ key2:Goodbye
       <dt>payload <span class="property-type">string</span> </dt>
       <dd>
         The string to match against the choices from the node config</code>
+      </dd>
+      <dt>choices <span class="property-type">string</span> </dt>
+      <dd>
+        Works only in "set choices with msg.choices" mode. 
+        A string containing lines of choices as specified in the node config. 
+        Will overwrite the choices that were set previously.</code>
       </dd>
     </dl>
     
