@@ -20,11 +20,11 @@ module.exports = function(RED) {
                 val: line
               }
             }
-          }).filter( (p) => p.val.length > 1) // filter empty lines
+          }).filter( (p) => p.val.length > 0) // filter empty lines
           return output;
       }
 
-      let keyChoicePairs = config.inputOptions == 'text' ? makeChoices(config.choices) : []
+      let keyChoicePairs = config.inputOptions == 'message' ? [] : makeChoices(config.choices);
 
       const scorer = fuzz[config.scorer]
       const options = {
@@ -60,7 +60,7 @@ module.exports = function(RED) {
           })
           
           msg.payload = resultsWithKeys
-          node.send([{...msg, payload: resultsWithKeys.length > 0 && resultsWithKeys[0].key , match: resultsWithKeys.length > 0 && resultsWithKeys[0] }, msg])
+          node.send([{...msg, payload: resultsWithKeys.length > 0 && resultsWithKeys[0].key , match: resultsWithKeys.length > 0 && resultsWithKeys[0] }, {...msg, payload: resultsWithKeys }])
       });
   }
 
