@@ -139,11 +139,20 @@ key2:Goodbye
     
     <h3>Outputs</h3>
     <ol class="node-ports">
-      <p>Outputs a msg, with its payload containing an ordered array with the matching scores and keys<p>
-      <li>state
+      <li>best match
         <dl class="message-properties">
-          <dt>results <span class="property-type">array</span></dt>
-          <dd>an array with objects containing key, score and closest match.</dd>
+          <dt>match <span class="property-type">object</span></dt>
+          <dd>an object containing information on the match</dd>
+        </dl>
+        <dl class="message-properties">
+          <dt>payload <span class="property-type">string</span></dt>
+          <dd>a string with the key of the match</dd>
+        </dl>
+      </li>
+      <li>best match
+        <dl class="message-properties">
+          <dt>payload <span class="property-type">string</span></dt>
+          <dd>an ordered array with the matching scores and keys</dd>
         </dl>
       </li>
     </ol>

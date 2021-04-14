@@ -60,7 +60,7 @@ module.exports = function(RED) {
           })
           
           msg.payload = resultsWithKeys
-          node.send([{...msg, payload: resultsWithKeys.length > 0 ? resultsWithKeys[0] : null }, msg])
+          node.send([{...msg, payload: resultsWithKeys.length > 0 && resultsWithKeys[0].key , match: resultsWithKeys.length > 0 && resultsWithKeys[0] }, msg])
       });
   }
 
